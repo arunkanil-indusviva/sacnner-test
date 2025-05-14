@@ -6,19 +6,40 @@ export default function ScannerPage() {
   const [buffer, setBuffer] = useState("");
   const inputRef = useRef(null);
   const navigate = useNavigate();
+  const lastKeyTime = useRef(0);
+  const SCAN_TIMEOUT = 50; // milliseconds between keypresses to consider it a barcode scan
 
   useEffect(() => {
     // Auto focus input
     inputRef.current?.focus();
 
     const handleKeyDown = (e) => {
+      const currentTime = new Date().getTime();
+      
+      // Ignore modifier keys and special keys
+      if (e.key === "Shift" || e.key === "CapsLock" || e.key === "Control" || 
+          e.key === "Alt" || e.key === "Meta" || e.key === "Tab") {
+        return;
+      }
+
+      // If it's been too long since the last keypress, clear the buffer
+      if (currentTime - lastKeyTime.current > 100) {
+        setBuffer("");
+      }
+
+      // Update the last keypress time
+      lastKeyTime.current = currentTime;
+
       if (e.key === "Enter") {
         if (buffer.trim()) {
           setScannedItems((prev) => [buffer.trim(), ...prev]);
           setBuffer("");
         }
       } else {
-        setBuffer((prev) => prev + e.key);
+        // Only add printable characters to the buffer
+        if (e.key.length === 1) {
+          setBuffer((prev) => prev + e.key);
+        }
       }
     };
 
@@ -49,7 +70,7 @@ export default function ScannerPage() {
 
       <div className="bg-white rounded-2xl shadow-md p-6 max-w-xl mx-auto">
         {scannedItems.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No items scanned yet. Start typing to scan items.</p>
+          <p className="text-gray-500 text-center py-4">No items scanned yet. Start scanning items.</p>
         ) : (
           <ul className="space-y-2">
             {scannedItems.map((item, index) => (
