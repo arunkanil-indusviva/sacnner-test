@@ -5,7 +5,7 @@ import ReviewPage from "./ReviewPage";
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="min-h-screen bg-gray-100">
         <Routes>
           <Route path="/" element={<ScannerPage />} />
