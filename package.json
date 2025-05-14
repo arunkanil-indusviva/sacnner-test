@@ -2,13 +2,21 @@
   "name": "playground-v2.0",
   "version": "0.1.0",
   "private": true,
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  },
   "dependencies": {
+    "@antv/g6": "^5.0.33",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "d3": "^7.9.0",
+    "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.0.2",
     "react-scripts": "5.0.1",
+    "react-use-localstorage": "^3.5.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
